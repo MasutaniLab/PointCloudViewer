@@ -1,0 +1,43 @@
+[0m[34mMar 31 08:41:20.148 INFO: manager: [0m1.1.2
+[0m[34mMar 31 08:41:20.148 INFO: manager: [0mCopyright (C) 2003-2014
+[0m[34mMar 31 08:41:20.148 INFO: manager: [0m  Noriaki Ando
+[0m[34mMar 31 08:41:20.148 INFO: manager: [0m  Intelligent Systems Research Institute, AIST
+[0m[34mMar 31 08:41:20.148 INFO: manager: [0mManager starting.
+[0m[34mMar 31 08:41:20.148 INFO: manager: [0mStarting local logging.
+[0m[34mMar 31 08:41:20.192 INFO: NamingOnCorba: [0mEndpoint for the CORBA naming service (localhost) is 127.0.0.1.
+[0m[34mMar 31 08:41:20.192 INFO: NamingManager: [0mNameServer connection succeeded: corba/localhost
+[0m[34mMar 31 08:41:22.223 INFO: ManagerServant: [0mMaster manager not found
+[0m[34mMar 31 08:41:22.232 INFO: manager: [0mComponent type conf file: PointCloudViewer.conf loaded.
+[0m[34mMar 31 08:41:30.184 INFO: NamingOnCorba: [0mEndpoint for the CORBA naming service (localhost) is 127.0.0.1.
+[0m[34mMar 31 08:41:30.184 INFO: NamingManager: [0mNameServer connection succeeded: corba/localhost
+[0m[34mMar 31 08:41:30.185 INFO: NamingManager: [0mConnected to a name server: corba/localhost
+[0m[34mMar 31 08:41:40.218 INFO: NamingOnCorba: [0mEndpoint for the CORBA naming service (localhost) is 127.0.0.1.
+[0m[34mMar 31 08:41:40.218 INFO: NamingManager: [0mNameServer connection succeeded: corba/localhost
+[0m[34mMar 31 08:41:40.218 INFO: NamingManager: [0mConnected to a name server: corba/localhost
+[0m[34mMar 31 08:41:50.259 INFO: NamingOnCorba: [0mEndpoint for the CORBA naming service (localhost) is 127.0.0.1.
+[0m[34mMar 31 08:41:50.259 INFO: NamingManager: [0mNameServer connection succeeded: corba/localhost
+[0m[34mMar 31 08:41:50.259 INFO: NamingManager: [0mConnected to a name server: corba/localhost
+[0m[34mMar 31 08:42:00.294 INFO: NamingOnCorba: [0mEndpoint for the CORBA naming service (localhost) is 127.0.0.1.
+[0m[34mMar 31 08:42:00.294 INFO: NamingManager: [0mNameServer connection succeeded: corba/localhost
+[0m[34mMar 31 08:42:00.294 INFO: NamingManager: [0mConnected to a name server: corba/localhost
+[0m[34mMar 31 08:42:10.326 INFO: NamingOnCorba: [0mEndpoint for the CORBA naming service (localhost) is 127.0.0.1.
+[0m[34mMar 31 08:42:10.326 INFO: NamingManager: [0mNameServer connection succeeded: corba/localhost
+[0m[34mMar 31 08:42:10.326 INFO: NamingManager: [0mConnected to a name server: corba/localhost
+[0m[34mMar 31 08:42:20.379 INFO: NamingOnCorba: [0mEndpoint for the CORBA naming service (localhost) is 127.0.0.1.
+[0m[34mMar 31 08:42:20.380 INFO: NamingManager: [0mNameServer connection succeeded: corba/localhost
+[0m[34mMar 31 08:42:20.380 INFO: NamingManager: [0mConnected to a name server: corba/localhost
+[0m[34mMar 31 08:42:30.419 INFO: NamingOnCorba: [0mEndpoint for the CORBA naming service (localhost) is 127.0.0.1.
+[0m[34mMar 31 08:42:30.420 INFO: NamingManager: [0mNameServer connection succeeded: corba/localhost
+[0m[34mMar 31 08:42:30.420 INFO: NamingManager: [0mConnected to a name server: corba/localhost
+[0m[34mMar 31 08:42:40.451 INFO: NamingOnCorba: [0mEndpoint for the CORBA naming service (localhost) is 127.0.0.1.
+[0m[34mMar 31 08:42:40.451 INFO: NamingManager: [0mNameServer connection succeeded: corba/localhost
+[0m[34mMar 31 08:42:40.451 INFO: NamingManager: [0mConnected to a name server: corba/localhost
+[0m[34mMar 31 08:42:50.491 INFO: NamingOnCorba: [0mEndpoint for the CORBA naming service (localhost) is 127.0.0.1.
+[0m[34mMar 31 08:42:50.491 INFO: NamingManager: [0mNameServer connection succeeded: corba/localhost
+[0m[34mMar 31 08:42:50.491 INFO: NamingManager: [0mConnected to a name server: corba/localhost
+[0m[34mMar 31 08:43:00.533 INFO: NamingOnCorba: [0mEndpoint for the CORBA naming service (localhost) is 127.0.0.1.
+[0m[34mMar 31 08:43:00.533 INFO: NamingManager: [0mNameServer connection succeeded: corba/localhost
+[0m[34mMar 31 08:43:00.533 INFO: NamingManager: [0mConnected to a name server: corba/localhost
+[0m[34mMar 31 08:43:10.574 INFO: NamingOnCorba: [0mEndpoint for the CORBA naming service (localhost) is 127.0.0.1.
+[0m[34mMar 31 08:43:10.574 INFO: NamingManager: [0mNameServer connection succeeded: corba/localhost
+[0m[34mMar 31 08:43:10.575 INFO: NamingManager: [0mConnected to a name server: corba/localhost

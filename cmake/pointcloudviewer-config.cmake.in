@@ -1,0 +1,54 @@
+# PointCloudViewer CMake config file
+#
+# This file sets the following variables:
+# PointCloudViewer_FOUND - Always TRUE.
+# PointCloudViewer_INCLUDE_DIRS - Directories containing the PointCloudViewer include files.
+# PointCloudViewer_IDL_DIRS - Directories containing the PointCloudViewer IDL files.
+# PointCloudViewer_LIBRARIES - Libraries needed to use PointCloudViewer.
+# PointCloudViewer_DEFINITIONS - Compiler flags for PointCloudViewer.
+# PointCloudViewer_VERSION - The version of PointCloudViewer found.
+# PointCloudViewer_VERSION_MAJOR - The major version of PointCloudViewer found.
+# PointCloudViewer_VERSION_MINOR - The minor version of PointCloudViewer found.
+# PointCloudViewer_VERSION_REVISION - The revision version of PointCloudViewer found.
+# PointCloudViewer_VERSION_CANDIDATE - The candidate version of PointCloudViewer found.
+
+message(STATUS "Found PointCloudViewer-@PROJECT_VERSION@")
+set(PointCloudViewer_FOUND TRUE)
+
+find_package(<dependency> REQUIRED)
+
+#set(PointCloudViewer_INCLUDE_DIRS
+#    "@CMAKE_INSTALL_PREFIX@/include/@PROJECT_NAME_LOWER@-@PROJECT_VERSION_MAJOR@"
+#    ${<dependency>_INCLUDE_DIRS}
+#    )
+#
+#set(PointCloudViewer_IDL_DIRS
+#    "@CMAKE_INSTALL_PREFIX@/include/@PROJECT_NAME_LOWER@-@PROJECT_VERSION_MAJOR@/idl")
+set(PointCloudViewer_INCLUDE_DIRS
+    "@CMAKE_INSTALL_PREFIX@/include/@CPACK_PACKAGE_FILE_NAME@"
+    ${<dependency>_INCLUDE_DIRS}
+    )
+set(PointCloudViewer_IDL_DIRS
+    "@CMAKE_INSTALL_PREFIX@/include/@CPACK_PACKAGE_FILE_NAME@/idl")
+
+
+if(WIN32)
+    set(PointCloudViewer_LIBRARIES
+        "@CMAKE_INSTALL_PREFIX@/@LIB_INSTALL_DIR@/@CMAKE_SHARED_LIBRARY_PREFIX@@PROJECT_NAME_LOWER@@CMAKE_STATIC_LIBRARY_SUFFIX@"
+        ${<dependency>_LIBRARIES}
+        )
+else(WIN32)
+    set(PointCloudViewer_LIBRARIES
+        "@CMAKE_INSTALL_PREFIX@/@LIB_INSTALL_DIR@/@CMAKE_SHARED_LIBRARY_PREFIX@@PROJECT_NAME_LOWER@@CMAKE_SHARED_LIBRARY_SUFFIX@"
+        ${<dependency>_LIBRARIES}
+        )
+endif(WIN32)
+
+set(PointCloudViewer_DEFINITIONS ${<dependency>_DEFINITIONS})
+
+set(PointCloudViewer_VERSION @PROJECT_VERSION@)
+set(PointCloudViewer_VERSION_MAJOR @PROJECT_VERSION_MAJOR@)
+set(PointCloudViewer_VERSION_MINOR @PROJECT_VERSION_MINOR@)
+set(PointCloudViewer_VERSION_REVISION @PROJECT_VERSION_REVISION@)
+set(PointCloudViewer_VERSION_CANDIDATE @PROJECT_VERSION_CANDIDATE@)
+
