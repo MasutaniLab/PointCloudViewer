@@ -121,7 +121,6 @@ RTC::ReturnCode_t PointCloudViewer::onDeactivated(RTC::UniqueId ec_id)
 
 #define print(x) cout << #x << ": " << x << endl
 #define printPointField(x) cout << #x << ": " << x.name << "," << x.offset << "," << x.data_type << "," << x.count << endl
-#define printPtr(p) cout << #p << ": " << p.x << "," << p.y << "," << p.z << "," << int(p.r) << "," << int(p.g) << "," << int(p.b) << endl
 
 RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
 {
@@ -147,6 +146,7 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
     string type = m_pc.type;
     if (type == "xyz") {
       pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+      pcl_cloud->is_dense = m_pc.is_dense;
       pcl_cloud->points.resize(m_pc.width*m_pc.height);
       float *src = (float *)m_pc.data.get_buffer();
       for (size_t i=0; i<pcl_cloud->points.size(); i++){
@@ -155,12 +155,13 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
         pcl_cloud->points[i].z = src[2];
         src += 4;
       }
-      pcl::PointCloud<pcl::PointXYZ>::ConstPtr c(pcl_cloud);
-      m_viewer->removePointCloud();
-      m_viewer->addPointCloud<pcl::PointXYZ>(c);
+      if (!m_viewer->updatePointCloud(pcl_cloud, "cloud")) {
+        m_viewer->addPointCloud<pcl::PointXYZ>(pcl_cloud, "cloud");
+      }
     } else if (type == "xyzrgb") {
       pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
       pcl_cloud->points.resize(m_pc.width*m_pc.height);
+      pcl_cloud->is_dense = m_pc.is_dense;
       float *src = (float *)m_pc.data.get_buffer();
       for (size_t i=0; i<pcl_cloud->points.size(); i++){
         pcl_cloud->points[i].x = src[0];
@@ -174,16 +175,13 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
 #endif
         src += 4;
       }
-      pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr c(pcl_cloud);
-      m_viewer->removePointCloud();
-      pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb(c);
-      m_viewer->addPointCloud<pcl::PointXYZRGB>(c, rgb);
-      //printPtr(pcl_cloud->points[0]);
-      //printPtr(pcl_cloud->points[38399]);
-      //printPtr(pcl_cloud->points[76799]);
+      if (!m_viewer->updatePointCloud(pcl_cloud, "cloud")) {
+        m_viewer->addPointCloud<pcl::PointXYZRGB>(pcl_cloud, "cloud");
+      }
     } else if (type == "xyzrgba") {
       pcl::PointCloud<pcl::PointXYZRGBA>::Ptr pcl_cloud(new pcl::PointCloud<pcl::PointXYZRGBA>);
       pcl_cloud->points.resize(m_pc.width*m_pc.height);
+      pcl_cloud->is_dense = m_pc.is_dense;
       float *src = (float *)m_pc.data.get_buffer();
       for (size_t i=0; i<pcl_cloud->points.size(); i++){
         pcl_cloud->points[i].x = src[0];
@@ -197,10 +195,9 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
 #endif
         src += 4;
       }
-      pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr c(pcl_cloud);
-      m_viewer->removePointCloud();
-      pcl::visualization::PointCloudColorHandlerRGBAField<pcl::PointXYZRGBA> rgba(c);
-      m_viewer->addPointCloud<pcl::PointXYZRGBA>(c, rgba);
+      if (!m_viewer->updatePointCloud(pcl_cloud, "cloud")) {
+        m_viewer->addPointCloud<pcl::PointXYZRGBA>(pcl_cloud, "cloud");
+      }
     } else {
       cerr << type << ": not supported" << endl;
       return RTC::RTC_ERROR;
