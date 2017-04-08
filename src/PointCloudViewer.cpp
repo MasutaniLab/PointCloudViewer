@@ -142,7 +142,6 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
       }
       m_first = false;
     }
-    try {
     string type = m_pc.type;
     if (type == "xyz") {
       pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_cloud(new pcl::PointCloud<pcl::PointXYZ>);
@@ -157,6 +156,7 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
       }
       if (!m_viewer->updatePointCloud(pcl_cloud, "cloud")) {
         m_viewer->addPointCloud<pcl::PointXYZ>(pcl_cloud, "cloud");
+        m_viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "cloud");
       }
     } else if (type == "xyzrgb") {
       pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
@@ -173,10 +173,27 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
         pcl_cloud->points[i].r = pcl_cloud->points[i].b;
         pcl_cloud->points[i].b = t;
 #endif
+#if 0
+        int x = i%m_pc.width;
+        int y = i/m_pc.width; 
+        cout << i << "  " << x << "," << y << "  "
+          << pcl_cloud->points[i].x << "," << pcl_cloud->points[i].y << "," << pcl_cloud->points[i].z << "  "
+          <<  setfill('0') << setw(8) << right << hex << *(uint32_t *)&pcl_cloud->points[i].rgb << dec << endl;
+#endif
+#if 0
+        int x = i%m_pc.width;
+        int y = i/m_pc.width;
+        if ( x == m_pc.width/2) {
+          cout << i << "  " << x << "," << y << "  "
+            << pcl_cloud->points[i].x << "," << pcl_cloud->points[i].y << "," << pcl_cloud->points[i].z << "  "
+            <<  setfill('0') << setw(8) << right << hex << *(uint32_t *)&pcl_cloud->points[i].rgb << dec << endl;
+        }
+#endif
         src += 4;
       }
       if (!m_viewer->updatePointCloud(pcl_cloud, "cloud")) {
         m_viewer->addPointCloud<pcl::PointXYZRGB>(pcl_cloud, "cloud");
+        m_viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "cloud");
       }
     } else if (type == "xyzrgba") {
       pcl::PointCloud<pcl::PointXYZRGBA>::Ptr pcl_cloud(new pcl::PointCloud<pcl::PointXYZRGBA>);
@@ -197,21 +214,16 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
       }
       if (!m_viewer->updatePointCloud(pcl_cloud, "cloud")) {
         m_viewer->addPointCloud<pcl::PointXYZRGBA>(pcl_cloud, "cloud");
+        m_viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "cloud");
       }
     } else {
       cerr << type << ": not supported" << endl;
       return RTC::RTC_ERROR;
     }
-    m_viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3);
-    //点を表す球の大きさ（単位？）
     m_viewer->spinOnce();
     if (m_viewer->wasStopped())
     {
         // Deactivate self
-    }
-    } catch ( std::exception e) {
-      cerr << "catch: " << e.what();
-      return RTC::RTC_ERROR;
     }
   }
   return RTC::RTC_OK;
