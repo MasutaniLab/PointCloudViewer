@@ -10,6 +10,7 @@
 #include "PointCloudViewer.h"
 
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 // Module specification
@@ -55,7 +56,7 @@ PointCloudViewer::~PointCloudViewer()
 
 RTC::ReturnCode_t PointCloudViewer::onInitialize()
 {
-  cout << "PointCloudViewer::onInitialize()" << endl;
+  RTC_INFO(("onInitialize()"));
   // Registration: InPort/OutPort/Service
   // <rtc-template block="registration">
   // Set InPort buffers
@@ -101,7 +102,7 @@ RTC::ReturnCode_t PointCloudViewer::onShutdown(RTC::UniqueId ec_id)
 
 RTC::ReturnCode_t PointCloudViewer::onActivated(RTC::UniqueId ec_id)
 {
-  cout << "PointCloudViewer::onActivated()" << endl;
+  RTC_INFO(("onActivated()"));
   m_viewer.reset(new pcl::visualization::PCLVisualizer("PointCloudViewer"));
   m_viewer->setBackgroundColor(0, 0, 0);
   m_viewer->addCoordinateSystem(1.0);
@@ -114,13 +115,16 @@ RTC::ReturnCode_t PointCloudViewer::onActivated(RTC::UniqueId ec_id)
 
 RTC::ReturnCode_t PointCloudViewer::onDeactivated(RTC::UniqueId ec_id)
 {
-  cout << "PointCloudViewer::onDeactivated()" << endl;
+  RTC_INFO(("onDeactivated()"));
   m_viewer->close();
   return RTC::RTC_OK;
 }
 
-#define print(x) cout << #x << ": " << x << endl
-#define printPointField(x) cout << #x << ": " << x.name << "," << x.offset << "," << x.data_type << "," << x.count << endl
+#define RTC_INFO_VAR(x) {stringstream ss; ss << #x << ": " << x; RTC_INFO(((ss.str().c_str())))}
+#define RTC_INFO_POINT_FIELD(i, x) \
+  {stringstream ss; \
+   ss << i << " " << #x << ": " << x.name << "," << x.offset << "," << x.data_type << "," << x.count;\
+   RTC_INFO(((ss.str().c_str())))}
 
 RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
 {
@@ -128,17 +132,16 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
   {
     m_pcIn.read();
     if (m_first) {
-      print(m_pc.seq);
-      print(m_pc.height);
-      print(m_pc.width);
-      print(m_pc.type);
-      print(m_pc.is_bigendian);
-      print(m_pc.point_step);
-      print(m_pc.row_step);
-      print(m_pc.is_dense);
+      RTC_INFO_VAR(m_pc.seq);
+      RTC_INFO_VAR(m_pc.height);
+      RTC_INFO_VAR(m_pc.width);
+      RTC_INFO_VAR(m_pc.type);
+      RTC_INFO_VAR(m_pc.is_bigendian);
+      RTC_INFO_VAR(m_pc.point_step);
+      RTC_INFO_VAR(m_pc.row_step);
+      RTC_INFO_VAR(m_pc.is_dense);
       for (int i=0; i<m_pc.fields.length(); i++) {
-        cout << i << " ";
-        printPointField(m_pc.fields[i]);
+        RTC_INFO_POINT_FIELD(i, m_pc.fields[i]);
       }
       m_first = false;
     }
@@ -217,7 +220,7 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
         m_viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "cloud");
       }
     } else {
-      cerr << type << ": not supported" << endl;
+      RTC_ERROR(((type + ": not supported").c_str()));
       return RTC::RTC_ERROR;
     }
     m_viewer->spinOnce();
