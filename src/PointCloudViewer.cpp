@@ -12,6 +12,7 @@
 #include <iostream>
 #include <sstream>
 using namespace std;
+using namespace Eigen;
 
 // Module specification
 // <rtc-template block="module_spec">
@@ -28,6 +29,30 @@ static const char* pointcloudviewer_spec[] =
     "max_instance",      "1",
     "language",          "C++",
     "lang_type",         "compile",
+    // Configuration variables
+    "conf.default.rotX", "0.0",
+    "conf.default.rotY", "0.0",
+    "conf.default.rotZ", "0.0",
+    "conf.default.transX", "0.0",
+    "conf.default.transY", "0.0",
+    "conf.default.transZ", "0.0",
+
+    // Widget
+    "conf.__widget__.rotX", "text",
+    "conf.__widget__.rotY", "text",
+    "conf.__widget__.rotZ", "text",
+    "conf.__widget__.transX", "text",
+    "conf.__widget__.transY", "text",
+    "conf.__widget__.transZ", "text",
+    // Constraints
+
+    "conf.__type__.rotX", "double",
+    "conf.__type__.rotY", "double",
+    "conf.__type__.rotZ", "double",
+    "conf.__type__.transX", "double",
+    "conf.__type__.transY", "double",
+    "conf.__type__.transZ", "double",
+
     ""
   };
 // </rtc-template>
@@ -73,6 +98,13 @@ RTC::ReturnCode_t PointCloudViewer::onInitialize()
   // </rtc-template>
 
   // <rtc-template block="bind_config">
+  // Bind variables and configuration variable
+  bindParameter("rotX", m_rotX, "0.0");
+  bindParameter("rotY", m_rotY, "0.0");
+  bindParameter("rotZ", m_rotZ, "0.0");
+  bindParameter("transX", m_transX, "0.0");
+  bindParameter("transY", m_transY, "0.0");
+  bindParameter("transZ", m_transZ, "0.0");
   // </rtc-template>
   
   return RTC::RTC_OK;
@@ -103,11 +135,35 @@ RTC::ReturnCode_t PointCloudViewer::onShutdown(RTC::UniqueId ec_id)
 RTC::ReturnCode_t PointCloudViewer::onActivated(RTC::UniqueId ec_id)
 {
   RTC_INFO(("onActivated()"));
+  double radX = m_rotX*M_PI / 180;
+  double radY = m_rotY*M_PI / 180;
+  double radZ = m_rotZ*M_PI / 180;
+  Affine3f transform
+    = Translation3f(m_transX, m_transY, m_transZ)
+    *AngleAxisf(radZ, Vector3f::UnitZ())
+    *AngleAxisf(radY, Vector3f::UnitY())
+    *AngleAxisf(radX, Vector3f::UnitX());
+  //cout << "m_transform:" << endl << m_transform.matrix() << endl;
   m_viewer.reset(new pcl::visualization::PCLVisualizer("PointCloudViewer"));
   m_viewer->setBackgroundColor(0, 0, 0);
   m_viewer->addCoordinateSystem(1.0);
-  m_viewer->setCameraPosition(0,0,3, 0,0,0, 0,1,0);
+  Vector3f origin = transform.translation();
+  Vector3f camera = transform*Vector3f(0, 0, 3);
+  Vector3f up = transform.linear().col(1);
+  m_viewer->setCameraPosition(
+    camera.x(), camera.y(), camera.z(),
+    origin.x(), origin.y(), origin.z(),
+    up.x(), up.y(), up.z());
+#if 0
+#define print(x) {cout << #x ":" << endl << x << endl;}
+  print(camera);
+  print(origin);
+  print(up);
+  print(transform.matrix());
+#endif
   m_viewer->setCameraClipDistances(0,10);
+  m_viewer->addCoordinateSystem(0.5, transform, "camera");
+
   m_first = true;
   return RTC::RTC_OK;
 }

@@ -235,6 +235,42 @@ class PointCloudViewer
 
   // Configuration variable declaration
   // <rtc-template block="config_declare">
+  /*!
+   * 
+   * - Name:  rotX
+   * - DefaultValue: 0.0
+   */
+  double m_rotX;
+  /*!
+   * 
+   * - Name:  rotY
+   * - DefaultValue: 0.0
+   */
+  double m_rotY;
+  /*!
+   * 
+   * - Name:  rotZ
+   * - DefaultValue: 0.0
+   */
+  double m_rotZ;
+  /*!
+   * 
+   * - Name:  transX
+   * - DefaultValue: 0.0
+   */
+  double m_transX;
+  /*!
+   * 
+   * - Name:  transY
+   * - DefaultValue: 0.0
+   */
+  double m_transY;
+  /*!
+   * 
+   * - Name:  transZ
+   * - DefaultValue: 0.0
+   */
+  double m_transZ;
 
   // </rtc-template>
 

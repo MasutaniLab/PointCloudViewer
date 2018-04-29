@@ -10,6 +10,7 @@
 #   --module-desc='Simple RTC:PCL Viewer' --module-version=1.0.0 --module-vendor=OECU 
 #   --module-category=RTCPCL --module-comp-type=STATIC 
 #   --module-act-type=PERIODIC --module-max-inst=1 
+#   --config=rotX:double:0.0 --config=rotY:double:0.0 --config=rotZ:double:0.0 --config=transX:double:0.0 --config=transY:double:0.0 --config=transZ:double:0.0 
 #   --inport=pc:PointCloudTypes::PointCloud 
 
 
@@ -105,6 +106,55 @@ Lang Type:
     Configuration definition
 ======================================================================
 # <rtc-template block="configuration">
+	Configuration:
+		Name:             rotX
+		Description:     
+		Type:            double
+		DefaultValue:     0.0
+		Unit:            
+		Range:           
+		Constraint:      
+
+		Name:             rotY
+		Description:     
+		Type:            double
+		DefaultValue:     0.0
+		Unit:            
+		Range:           
+		Constraint:      
+
+		Name:             rotZ
+		Description:     
+		Type:            double
+		DefaultValue:     0.0
+		Unit:            
+		Range:           
+		Constraint:      
+
+		Name:             transX
+		Description:     
+		Type:            double
+		DefaultValue:     0.0
+		Unit:            
+		Range:           
+		Constraint:      
+
+		Name:             transY
+		Description:     
+		Type:            double
+		DefaultValue:     0.0
+		Unit:            
+		Range:           
+		Constraint:      
+
+		Name:             transZ
+		Description:     
+		Type:            double
+		DefaultValue:     0.0
+		Unit:            
+		Range:           
+		Constraint:      
+
 # </rtc-template> 
 
 This software is developed at the National Institute of Advanced

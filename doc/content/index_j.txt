@@ -98,6 +98,12 @@ PointCloudViewerは ``PointCloudViewerComp`` を実行（ ``${prefix}/components
 ================ ================== ================ ====
 パラメータ       データ型           デフォルト値     意味
 ================ ================== ================ ====
+rotX             double             0.0              
+rotY             double             0.0              
+rotZ             double             0.0              
+transX           double             0.0              
+transY           double             0.0              
+transZ           double             0.0              
 ================ ================== ================ ====
 
 ポート

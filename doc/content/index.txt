@@ -106,6 +106,12 @@ The available configuration parameters are described below:
 ================ ================== ================ ======
 Parameter        Data type          Default Value    Effect
 ================ ================== ================ ======
+rotX             double             0.0              
+rotY             double             0.0              
+rotZ             double             0.0              
+transX           double             0.0              
+transY           double             0.0              
+transZ           double             0.0              
 ================ ================== ================ ======
 
 Ports
