@@ -196,12 +196,12 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
       RTC_INFO_VAR(m_pc.point_step);
       RTC_INFO_VAR(m_pc.row_step);
       RTC_INFO_VAR(m_pc.is_dense);
-      for (int i=0; i<m_pc.fields.length(); i++) {
+      for (size_t i=0; i<m_pc.fields.length(); i++) {
         RTC_INFO_POINT_FIELD(i, m_pc.fields[i]);
       }
       m_first = false;
     }
-    string type = m_pc.type;
+    string type = string(m_pc.type);
     if (type == "xyz") {
       pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_cloud(new pcl::PointCloud<pcl::PointXYZ>);
       pcl_cloud->is_dense = m_pc.is_dense;
