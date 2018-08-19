@@ -7,6 +7,9 @@
  * $Id$
  */
 
+#define X1000
+#define SWAP_R_B 
+
 #include "PointCloudViewer.h"
 
 #include <iostream>
@@ -208,9 +211,15 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
       pcl_cloud->points.resize(m_pc.width*m_pc.height);
       float *src = (float *)m_pc.data.get_buffer();
       for (size_t i=0; i<pcl_cloud->points.size(); i++){
+#ifdef X1000
+        pcl_cloud->points[i].x = src[0]*1000;
+        pcl_cloud->points[i].y = src[1]*1000;
+        pcl_cloud->points[i].z = src[2]*1000;
+#else
         pcl_cloud->points[i].x = src[0];
         pcl_cloud->points[i].y = src[1];
         pcl_cloud->points[i].z = src[2];
+#endif
         src += 4;
       }
       if (!m_viewer->updatePointCloud(pcl_cloud, "cloud")) {
@@ -223,9 +232,15 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
       pcl_cloud->is_dense = m_pc.is_dense;
       float *src = (float *)m_pc.data.get_buffer();
       for (size_t i=0; i<pcl_cloud->points.size(); i++){
+#ifdef X1000
+        pcl_cloud->points[i].x = src[0]*1000;
+        pcl_cloud->points[i].y = src[1]*1000;
+        pcl_cloud->points[i].z = src[2]*1000;
+#else
         pcl_cloud->points[i].x = src[0];
         pcl_cloud->points[i].y = src[1];
         pcl_cloud->points[i].z = src[2];
+#endif
         pcl_cloud->points[i].rgb = src[3];
 #ifdef SWAP_R_B      
         uint8_t t = pcl_cloud->points[i].r;
