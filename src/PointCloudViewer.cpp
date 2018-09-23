@@ -281,11 +281,11 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
       RTC_ERROR(((type + ": not supported").c_str()));
       return RTC::RTC_ERROR;
     }
-    m_viewer->spinOnce();
-    if (m_viewer->wasStopped())
-    {
-        // Deactivate self
-    }
+  }
+  m_viewer->spinOnce();
+  if (m_viewer->wasStopped())
+  {
+    // Deactivate self
   }
   return RTC::RTC_OK;
 }
