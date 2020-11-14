@@ -1,4 +1,4 @@
-PointCloudViewer - 日本語
+﻿PointCloudViewer - 日本語
 =======================
 
 
@@ -104,6 +104,7 @@ rotZ             double             0.0
 transX           double             0.0              
 transY           double             0.0              
 transZ           double             0.0              
+swapRB           short              0                
 ================ ================== ================ ====
 
 ポート

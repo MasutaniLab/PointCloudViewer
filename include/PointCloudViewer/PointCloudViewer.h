@@ -1,4 +1,4 @@
-// -*- C++ -*-
+﻿// -*- C++ -*-
 /*!
  * @file  PointCloudViewer.h
  * @brief Simple RTC:PCL Viewer
@@ -32,7 +32,8 @@
 
 // Service Consumer stub headers
 // <rtc-template block="port_stub_h">
-using namespace PointCloudTypes;
+
+
 // </rtc-template>
 
 #include <rtm/Manager.h>
@@ -271,6 +272,12 @@ class PointCloudViewer
    * - DefaultValue: 0.0
    */
   double m_transZ;
+  /*!
+   * 
+   * - Name:  swapRB
+   * - DefaultValue: 0
+   */
+  short int m_swapRB;
 
   // </rtc-template>
 
@@ -279,7 +286,7 @@ class PointCloudViewer
   PointCloudTypes::PointCloud m_pc;
   /*!
    */
-  InPort<PointCloudTypes::PointCloud> m_pcIn;
+  RTC::InPort<PointCloudTypes::PointCloud> m_pcIn;
   
   // </rtc-template>
 

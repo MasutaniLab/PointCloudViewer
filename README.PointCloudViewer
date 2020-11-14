@@ -1,4 +1,4 @@
-======================================================================
+﻿======================================================================
   RTComponent: PointCloudViewer specificatioin
 
   OpenRTM-aist-1.0.0
@@ -21,7 +21,7 @@
 Module Name: PointCloudViewer
 Description: Simple RTC:PCL Viewer
 Version:     1.0.0
-Vendor:      OECU
+Vendor:      MasutaniLab
 Category:    RTCPCL
 Kind:        DataFlowComponent
 Comp. Type:  STATIC
@@ -151,6 +151,14 @@ Lang Type:
 		Description:     
 		Type:            double
 		DefaultValue:     0.0
+		Unit:            
+		Range:           
+		Constraint:      
+
+		Name:             swapRB
+		Description:     
+		Type:            short
+		DefaultValue:     0
 		Unit:            
 		Range:           
 		Constraint:      

@@ -1,4 +1,4 @@
-// -*- C++ -*-
+ï»¿// -*- C++ -*-
 /*!
  * @file  PointCloudViewer.cpp
  * @brief Simple RTC:PCL Viewer
@@ -22,7 +22,7 @@ static const char* pointcloudviewer_spec[] =
     "type_name",         "PointCloudViewer",
     "description",       "Simple RTC:PCL Viewer",
     "version",           "1.0.0",
-    "vendor",            "OECU",
+    "vendor",            "MasutaniLab",
     "category",          "RTCPCL",
     "activity_type",     "PERIODIC",
     "kind",              "DataFlowComponent",
@@ -36,6 +36,7 @@ static const char* pointcloudviewer_spec[] =
     "conf.default.transX", "0.0",
     "conf.default.transY", "0.0",
     "conf.default.transZ", "0.0",
+    "conf.default.swapRB", "0",
 
     // Widget
     "conf.__widget__.rotX", "text",
@@ -44,7 +45,9 @@ static const char* pointcloudviewer_spec[] =
     "conf.__widget__.transX", "text",
     "conf.__widget__.transY", "text",
     "conf.__widget__.transZ", "text",
+    "conf.__widget__.swapRB", "radio",
     // Constraints
+    "conf.__constraints__.swapRB", "(0,1)",
 
     "conf.__type__.rotX", "double",
     "conf.__type__.rotY", "double",
@@ -52,6 +55,7 @@ static const char* pointcloudviewer_spec[] =
     "conf.__type__.transX", "double",
     "conf.__type__.transY", "double",
     "conf.__type__.transZ", "double",
+    "conf.__type__.swapRB", "short",
 
     ""
   };
@@ -105,6 +109,7 @@ RTC::ReturnCode_t PointCloudViewer::onInitialize()
   bindParameter("transX", m_transX, "0.0");
   bindParameter("transY", m_transY, "0.0");
   bindParameter("transZ", m_transZ, "0.0");
+  bindParameter("swapRB", m_swapRB, "0");
   // </rtc-template>
   
   return RTC::RTC_OK;
@@ -287,18 +292,18 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
   } catch (const std::length_error& e) {
     string w = e.what();
     if (w == "vector too long") {
-      //pcl::visualization::PCLVisualizerInteractorStyle::OnTimer () “à‚Ì
-      //Interactor->Render ()‚Å”­¶‚·‚é—áŠO‚ğ‰ñ”ğ‚·‚é‚½‚ß‚Ì‹ê“÷‚Ìô
-      RTC_WARN(("—áŠO”­¶: %s (–³‹)", e.what()));
+      //pcl::visualization::PCLVisualizerInteractorStyle::OnTimer () ï¿½ï¿½ï¿½ï¿½
+      //Interactor->Render ()ï¿½Å”ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‚½ï¿½ß‚Ì‹ï¿½ï¿½ï¿½Ìï¿½
+      RTC_WARN(("ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½: %s (ï¿½ï¿½ï¿½ï¿½)", e.what()));
       return RTC::RTC_OK;
     }
-    RTC_ERROR(("—áŠO”­¶: %s", e.what()));
+    RTC_ERROR(("ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½: %s", e.what()));
     return RTC::RTC_ERROR;
   } catch (const std::exception& e) {
-    RTC_ERROR(("—áŠO”­¶: %s", e.what()));
+    RTC_ERROR(("ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½: %s", e.what()));
     return RTC::RTC_ERROR;
   } catch (...) {
-    RTC_ERROR(("onExecute()‚É‚¨‚¢‚Ä”ñ•W€‚Ì—áŠO”­¶"));
+    RTC_ERROR(("onExecute()ï¿½É‚ï¿½ï¿½ï¿½ï¿½Ä”ï¿½Wï¿½ï¿½ï¿½Ì—ï¿½Oï¿½ï¿½ï¿½ï¿½"));
     return RTC::RTC_ERROR;
   }
 
