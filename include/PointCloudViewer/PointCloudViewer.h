@@ -322,6 +322,20 @@ class PointCloudViewer
    boost::shared_ptr<pcl::visualization::PCLVisualizer> m_viewer;
    bool m_first;
 
+   void (*m_pixelProcess_XYZRGBA)(pcl::PointXYZRGBA& p);
+   void (*m_pixelProcess_XYZRGB)(pcl::PointXYZRGB& p);
+
+   template <typename PointT>
+   static void swapRB(PointT& p)
+   {
+     uint8_t t = p.r;
+     p.r = p.b;
+     p.b = t;
+   }
+
+   template <typename PointT>
+   static void none(PointT& p) {}
+
 };
 
 

@@ -169,6 +169,14 @@ RTC::ReturnCode_t PointCloudViewer::onActivated(RTC::UniqueId ec_id)
   m_viewer->setCameraClipDistances(0,10);
   m_viewer->addCoordinateSystem(0.5, transform, "camera");
 
+  //各画素のRとBを交換するかどうか（画素ごとの条件分岐を避けるために）
+  m_pixelProcess_XYZRGBA = none<pcl::PointXYZRGBA>;
+  m_pixelProcess_XYZRGB = none<pcl::PointXYZRGB>;
+  if (m_swapRB) {
+    m_pixelProcess_XYZRGBA = swapRB<pcl::PointXYZRGBA>;
+    m_pixelProcess_XYZRGB = swapRB<pcl::PointXYZRGB>;
+  }
+
   m_first = true;
   return RTC::RTC_OK;
 }
@@ -232,18 +240,7 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
           pcl_cloud->points[i].y = src[1];
           pcl_cloud->points[i].z = src[2];
           pcl_cloud->points[i].rgb = src[3];
-#ifdef SWAP_R_B      
-          uint8_t t = pcl_cloud->points[i].r;
-          pcl_cloud->points[i].r = pcl_cloud->points[i].b;
-          pcl_cloud->points[i].b = t;
-#endif
-#if 0
-          int x = i % m_pc.width;
-          int y = i / m_pc.width;
-          cout << i << "  " << x << "," << y << "  "
-            << pcl_cloud->points[i].x << "," << pcl_cloud->points[i].y << "," << pcl_cloud->points[i].z << "  "
-            << setfill('0') << setw(8) << right << hex << *(uint32_t*)&pcl_cloud->points[i].rgb << dec << endl;
-#endif
+          m_pixelProcess_XYZRGB(pcl_cloud->points[i]); //swapRBが1ならば赤と青を交換
 #if 0
           int x = i % m_pc.width;
           int y = i / m_pc.width;
@@ -269,11 +266,7 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
           pcl_cloud->points[i].y = src[1];
           pcl_cloud->points[i].z = src[2];
           pcl_cloud->points[i].rgb = src[3];
-#ifdef SWAP_R_B      
-          uint8_t t = pcl_cloud->points[i].r;
-          pcl_cloud->points[i].r = pcl_cloud->points[i].b;
-          pcl_cloud->points[i].b = t;
-#endif
+          m_pixelProcess_XYZRGBA(pcl_cloud->points[i]);  //swapRBが1ならば赤と青を交換
           src += 4;
         }
         if (!m_viewer->updatePointCloud(pcl_cloud, "cloud")) {
@@ -292,18 +285,18 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
   } catch (const std::length_error& e) {
     string w = e.what();
     if (w == "vector too long") {
-      //pcl::visualization::PCLVisualizerInteractorStyle::OnTimer () ����
-      //Interactor->Render ()�Ŕ��������O��������邽�߂̋���̍�
-      RTC_WARN(("��O����: %s (����)", e.what()));
+      //pcl::visualization::PCLVisualizerInteractorStyle::OnTimer () 内の
+      //Interactor->Render ()で発生する例外を回避するための苦肉の策
+      RTC_WARN(("例外発生: %s (無視)", e.what()));
       return RTC::RTC_OK;
     }
-    RTC_ERROR(("��O����: %s", e.what()));
+    RTC_ERROR(("例外発生: %s", e.what()));
     return RTC::RTC_ERROR;
   } catch (const std::exception& e) {
-    RTC_ERROR(("��O����: %s", e.what()));
+    RTC_ERROR(("例外発生: %s", e.what()));
     return RTC::RTC_ERROR;
   } catch (...) {
-    RTC_ERROR(("onExecute()�ɂ����Ĕ�W���̗�O����"));
+    RTC_ERROR(("onExecute()において非標準の例外発生"));
     return RTC::RTC_ERROR;
   }
 
