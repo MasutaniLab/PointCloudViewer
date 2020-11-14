@@ -244,6 +244,13 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
 #if 0
           int x = i % m_pc.width;
           int y = i / m_pc.width;
+          cout << i << "  " << x << "," << y << "  "
+            << pcl_cloud->points[i].x << "," << pcl_cloud->points[i].y << "," << pcl_cloud->points[i].z << "  "
+            << setfill('0') << setw(8) << right << hex << *(uint32_t*)&pcl_cloud->points[i].rgb << dec << endl;
+#endif
+#if 0
+          int x = i % m_pc.width;
+          int y = i / m_pc.width;
           if (x == m_pc.width / 2) {
             cout << i << "  " << x << "," << y << "  "
               << pcl_cloud->points[i].x << "," << pcl_cloud->points[i].y << "," << pcl_cloud->points[i].z << "  "
