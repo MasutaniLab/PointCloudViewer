@@ -1,6 +1,12 @@
 set(comp_srcs PointCloudViewer.cpp )
 set(standalone_srcs PointCloudViewerComp.cpp)
 
+if(UNIX)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated")
+  #warning: dynamic exception specifications are deprecated in C++11 が大量に出るのを避けるため
+endif()
+
+
 find_package(PCL 1 REQUIRED)
 if(${OPENRTM_VERSION_MAJOR} LESS 2)
   set(OPENRTM_CFLAGS ${OPENRTM_CFLAGS} ${OMNIORB_CFLAGS})
