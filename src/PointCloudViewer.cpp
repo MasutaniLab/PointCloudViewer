@@ -36,7 +36,7 @@ static const char* pointcloudviewer_spec[] =
     "conf.default.transX", "0.0",
     "conf.default.transY", "0.0",
     "conf.default.transZ", "0.0",
-    "conf.default.swapRB", "0",
+    "conf.default.colorOrder", "RGB",
 
     // Widget
     "conf.__widget__.rotX", "text",
@@ -45,9 +45,9 @@ static const char* pointcloudviewer_spec[] =
     "conf.__widget__.transX", "text",
     "conf.__widget__.transY", "text",
     "conf.__widget__.transZ", "text",
-    "conf.__widget__.swapRB", "radio",
+    "conf.__widget__.colorOrder", "radio",
     // Constraints
-    "conf.__constraints__.swapRB", "(0,1)",
+    "conf.__constraints__.colorOrder", "(RGB,BGR)",
 
     "conf.__type__.rotX", "double",
     "conf.__type__.rotY", "double",
@@ -55,7 +55,7 @@ static const char* pointcloudviewer_spec[] =
     "conf.__type__.transX", "double",
     "conf.__type__.transY", "double",
     "conf.__type__.transZ", "double",
-    "conf.__type__.swapRB", "short",
+    "conf.__type__.colorOrder", "string",
 
     ""
   };
@@ -90,15 +90,15 @@ RTC::ReturnCode_t PointCloudViewer::onInitialize()
   // <rtc-template block="registration">
   // Set InPort buffers
   addInPort("pc", m_pcIn);
-  
+
   // Set OutPort buffer
-  
+
   // Set service provider to Ports
-  
+
   // Set service consumers to Ports
-  
+
   // Set CORBA Service Ports
-  
+
   // </rtc-template>
 
   // <rtc-template block="bind_config">
@@ -109,7 +109,7 @@ RTC::ReturnCode_t PointCloudViewer::onInitialize()
   bindParameter("transX", m_transX, "0.0");
   bindParameter("transY", m_transY, "0.0");
   bindParameter("transZ", m_transZ, "0.0");
-  bindParameter("swapRB", m_swapRB, "0");
+  bindParameter("colorOrder", m_colorOrder, "RGB");
   // </rtc-template>
   
   return RTC::RTC_OK;
@@ -170,11 +170,13 @@ RTC::ReturnCode_t PointCloudViewer::onActivated(RTC::UniqueId ec_id)
   m_viewer->addCoordinateSystem(0.5, transform, "camera");
 
   //各画素のRとBを交換するかどうか（画素ごとの条件分岐を避けるために）
-  m_pixelProcess_XYZRGBA = none<pcl::PointXYZRGBA>;
-  m_pixelProcess_XYZRGB = none<pcl::PointXYZRGB>;
-  if (m_swapRB) {
-    m_pixelProcess_XYZRGBA = swapRB<pcl::PointXYZRGBA>;
-    m_pixelProcess_XYZRGB = swapRB<pcl::PointXYZRGB>;
+  if (m_colorOrder == "RGB") {
+    m_setColor = m_swapRB;
+  } else if (m_colorOrder == "BGR") {
+    m_setColor = m_through;
+  } else {
+    RTC_ERROR(("m_colorOrder: %s は想定外", m_colorOrder.c_str()));
+    return RTC::RTC_ERROR;
   }
 
   m_first = true;
@@ -239,8 +241,7 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
           pcl_cloud->points[i].x = src[0];
           pcl_cloud->points[i].y = src[1];
           pcl_cloud->points[i].z = src[2];
-          pcl_cloud->points[i].rgb = src[3];
-          m_pixelProcess_XYZRGB(pcl_cloud->points[i]); //swapRBが1ならば赤と青を交換
+          pcl_cloud->points[i].rgb = m_setColor(src[3]);
 #if 0
           int x = i % m_pc.width;
           int y = i / m_pc.width;
@@ -272,8 +273,7 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
           pcl_cloud->points[i].x = src[0];
           pcl_cloud->points[i].y = src[1];
           pcl_cloud->points[i].z = src[2];
-          pcl_cloud->points[i].rgb = src[3];
-          m_pixelProcess_XYZRGBA(pcl_cloud->points[i]);  //swapRBが1ならば赤と青を交換
+          pcl_cloud->points[i].rgb = m_setColor(src[3]);
           src += 4;
         }
         if (!m_viewer->updatePointCloud(pcl_cloud, "cloud")) {

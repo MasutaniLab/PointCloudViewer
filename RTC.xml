@@ -38,21 +38,21 @@
         <rtc:Configuration xsi:type="rtcExt:configuration_ext" rtcExt:variableName="" rtc:unit="" rtc:defaultValue="0.0" rtc:type="double" rtc:name="transZ">
             <rtcExt:Properties rtcExt:value="text" rtcExt:name="__widget__"/>
         </rtc:Configuration>
-        <rtc:Configuration xsi:type="rtcExt:configuration_ext" rtcExt:variableName="" rtc:unit="" rtc:defaultValue="0" rtc:type="short" rtc:name="swapRB">
+        <rtc:Configuration xsi:type="rtcExt:configuration_ext" rtcExt:variableName="" rtc:unit="" rtc:defaultValue="RGB" rtc:type="string" rtc:name="colorOrder">
             <rtc:Constraint>
                 <rtc:ConstraintUnitType>
                     <rtc:Or>
                         <rtc:Constraint>
                             <rtc:ConstraintUnitType>
                                 <rtc:propertyIsEqualTo rtc:matchCase="false">
-                                    <rtc:Literal>0</rtc:Literal>
+                                    <rtc:Literal>RGB</rtc:Literal>
                                 </rtc:propertyIsEqualTo>
                             </rtc:ConstraintUnitType>
                         </rtc:Constraint>
                         <rtc:Constraint>
                             <rtc:ConstraintUnitType>
                                 <rtc:propertyIsEqualTo rtc:matchCase="false">
-                                    <rtc:Literal>1</rtc:Literal>
+                                    <rtc:Literal>BGR</rtc:Literal>
                                 </rtc:propertyIsEqualTo>
                             </rtc:ConstraintUnitType>
                         </rtc:Constraint>

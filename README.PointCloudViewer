@@ -155,10 +155,10 @@ Lang Type:
 		Range:           
 		Constraint:      
 
-		Name:             swapRB
+		Name:             colorOrder
 		Description:     
-		Type:            short
-		DefaultValue:     0
+		Type:            string
+		DefaultValue:     RGB
 		Unit:            
 		Range:           
 		Constraint:      

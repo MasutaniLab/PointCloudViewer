@@ -274,10 +274,10 @@ class PointCloudViewer
   double m_transZ;
   /*!
    * 
-   * - Name:  swapRB
-   * - DefaultValue: 0
+   * - Name:  colorOrder
+   * - DefaultValue: RGB
    */
-  short int m_swapRB;
+  std::string m_colorOrder;
 
   // </rtc-template>
 
@@ -322,19 +322,27 @@ class PointCloudViewer
    boost::shared_ptr<pcl::visualization::PCLVisualizer> m_viewer;
    bool m_first;
 
-   void (*m_pixelProcess_XYZRGBA)(pcl::PointXYZRGBA& p);
-   void (*m_pixelProcess_XYZRGB)(pcl::PointXYZRGB& p);
+   float (*m_setColor)(float& f);
 
-   template <typename PointT>
-   static void swapRB(PointT& p)
+   static float m_swapRB(float& f)
    {
-     uint8_t t = p.r;
-     p.r = p.b;
-     p.b = t;
+     union {
+      struct{
+         std::uint8_t b;
+         std::uint8_t g;
+         std::uint8_t r;
+         std::uint8_t a;
+       };
+       float rgb;
+     } urgb;
+     urgb.rgb = f;
+     uint8_t t = urgb.r;
+     urgb.r = urgb.b;
+     urgb.b = t;
+     return urgb.rgb;
    }
 
-   template <typename PointT>
-   static void none(PointT& p) {}
+   static float m_through(float& f) { return f; }
 
 };
 

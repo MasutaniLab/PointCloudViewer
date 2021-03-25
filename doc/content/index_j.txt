@@ -104,7 +104,7 @@ rotZ             double             0.0
 transX           double             0.0              
 transY           double             0.0              
 transZ           double             0.0              
-swapRB           short              0                
+colorOrder       string             RGB              
 ================ ================== ================ ====
 
 ポート
