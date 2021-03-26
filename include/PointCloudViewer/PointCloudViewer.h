@@ -27,6 +27,7 @@
 // Service Consumer stub headers
 // <rtc-template block="consumer_stub_h">
 #include "pointcloudStub.h"
+#include "BasicDataTypeStub.h"
 
 // </rtc-template>
 
@@ -287,6 +288,10 @@ class PointCloudViewer
   /*!
    */
   RTC::InPort<PointCloudTypes::PointCloud> m_pcIn;
+  RTC::TimedFloatSeq m_xyseq;
+  /*!
+   */
+  RTC::InPort<RTC::TimedFloatSeq> m_xyseqIn;
   
   // </rtc-template>
 

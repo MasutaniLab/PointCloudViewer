@@ -84,6 +84,24 @@ Lang Type:
 		RangeHigh:
 		DefaultValue:
 
+	Name:        xyseq
+	PortNumber:  1
+	Description: 
+	PortType: 
+	DataType:    RTC::TimedFloatSeq
+	MaxOut: 
+	[Data Elements]
+		Name:
+		Type:            
+		Number:          
+		Semantics:       
+		Unit:            
+		Frequency:       
+		Operation Cycle: 
+		RangeLow:
+		RangeHigh:
+		DefaultValue:
+
 
 # </rtc-template>
 

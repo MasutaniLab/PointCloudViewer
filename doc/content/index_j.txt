@@ -116,6 +116,7 @@ colorOrder       string             RGB
 ポート名        ポート型    データ型                       意味
 =============== =========== ============================== ====
 pc              InPort      PointCloudTypes::PointCloud    
+xyseq           InPort      RTC::TimedFloatSeq             
 =============== =========== ============================== ====
 
 例

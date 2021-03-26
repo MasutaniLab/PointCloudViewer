@@ -124,6 +124,7 @@ The ports provided by the component are described below:
 Name            Type        Data type                      Purpose
 =============== =========== ============================== =======
 pc              InPort      PointCloudTypes::PointCloud    
+xyseq           InPort      RTC::TimedFloatSeq             
 =============== =========== ============================== =======
 
 Examples

@@ -68,7 +68,8 @@ static const char* pointcloudviewer_spec[] =
 PointCloudViewer::PointCloudViewer(RTC::Manager* manager)
     // <rtc-template block="initializer">
   : RTC::DataFlowComponentBase(manager),
-    m_pcIn("pc", m_pc)
+    m_pcIn("pc", m_pc),
+    m_xyseqIn("xyseq", m_xyseq)
 
     // </rtc-template>
 {
@@ -90,6 +91,7 @@ RTC::ReturnCode_t PointCloudViewer::onInitialize()
   // <rtc-template block="registration">
   // Set InPort buffers
   addInPort("pc", m_pcIn);
+  addInPort("xyseq", m_xyseqIn);
 
   // Set OutPort buffer
 
