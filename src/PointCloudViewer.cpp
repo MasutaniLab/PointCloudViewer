@@ -202,6 +202,7 @@ RTC::ReturnCode_t PointCloudViewer::onDeactivated(RTC::UniqueId ec_id)
 RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
 {
   try {
+    bool spin = false;
     if (m_pcIn.isNew()) {
       m_pcIn.read();
       if (m_first) {
@@ -286,10 +287,36 @@ RTC::ReturnCode_t PointCloudViewer::onExecute(RTC::UniqueId ec_id)
         RTC_ERROR(((type + ": not supported").c_str()));
         return RTC::RTC_ERROR;
       }
+      spin = true;
     }
-    m_viewer->spinOnce(10);
-    if (m_viewer->wasStopped()) {
-        // Deactivate self
+    if (m_xyseqIn.isNew()) {
+      m_xyseqIn.read();
+      pcl::PointCloud<pcl::PointXYZRGB>::Ptr seq(new pcl::PointCloud<pcl::PointXYZRGB>);
+      for (size_t i=0; i<m_xyseq.data.length(); i++) {
+        pcl::PointXYZRGB p;
+        //xyseqのxを-zに，yを-xに変換する．
+        p.z = -m_xyseq.data[i];
+        i++;
+        p.x = -m_xyseq.data[i];
+        p.y = 0; //y=0の平面上に描画
+        p.r = 0;
+        p.g = 255;
+        p.b = 0;
+        seq->points.push_back(p);
+      }
+      seq->width = seq->points.size();
+      seq->height = 1;
+      if (!m_viewer->updatePointCloud(seq, "seq")) {
+        m_viewer->addPointCloud<pcl::PointXYZRGB>(seq, "seq");
+        m_viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3, "seq");
+      }
+      spin = true;
+    }
+    if (spin) {
+      m_viewer->spinOnce(10);
+      if (m_viewer->wasStopped()) {
+          // Deactivate self
+      }
     }
   } catch (const std::length_error& e) {
     string w = e.what();
